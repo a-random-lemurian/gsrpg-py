@@ -22,12 +22,17 @@ except ImportError:
     else:
         os.system("python3 -m pip install typer==0.4.0 && pip install questionary==1.10.0")
 
+
+GSRPG_DATA_FILE_PATH = 'gsrpg1.json'
+import order_implementation as Ord
+
+
+
 app = typer.Typer(add_completion=True)
 faction_data_access = typer.Typer(add_completion=True)
 
 app.add_typer(faction_data_access,name='list')
 
-GSRPG_DATA_FILE_PATH = 'gsrpg1.json'
 
 with open(GSRPG_DATA_FILE_PATH, "r+", encoding="UTF-8") as gsrpg_file:
     gsrpg = json.load(gsrpg_file)
