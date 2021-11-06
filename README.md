@@ -1,4 +1,18 @@
-# GSRPG.py - A helpful tool to automate GSRPGs.
+# GSRPG.py - A helpful tool for you, the Gamemaster.
+Spend the time you allot to your Gamemaster duties:
+- Writing more lore.
+- Recruiting players.
+- Brainstorming.
+
+And hopefully spend less time:
+- Fixing update errors.
+- Arguing with players over update errors.
+
+All that's needed is to learn:
+- How to install the Python interpreter on your computer (it's simple, don't worry)
+- How to be a better Gamemaster
+- Basic knowledge of your Terminal or Command Prompt
+- JSON syntax
 > Note: This GSRPG tool is tailored towards the specific needs of the GSRPG subforum on Sufficient Velocity.
 
 > **Link**: https://forums.sufficientvelocity.com
