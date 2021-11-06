@@ -20,7 +20,7 @@ Support for:
 - Factions
 - Buildings
 - Resources
-> Note: This GSRPG tool is tailored towards the specific needs of the GSRPG subforum on Sufficient Velocity.
+> Note: This GSRPG tool is tailored towards the specific needs of the GSRPG subforum on Sufficient Velocity. An effort has been made to ensure this tool's adaptability however.
 
 > **Link**: https://forums.sufficientvelocity.com
 
