@@ -14,6 +14,12 @@ All that's needed is to learn:
 - How to be a better Gamemaster
 - Basic knowledge of your Terminal or Command Prompt
 - JSON syntax
+
+Support for:
+- Characters
+- Factions
+- Buildings
+- Resources
 > Note: This GSRPG tool is tailored towards the specific needs of the GSRPG subforum on Sufficient Velocity.
 
 > **Link**: https://forums.sufficientvelocity.com
