@@ -7,6 +7,7 @@ Spend the time you allot to your Gamemaster duties:
 And hopefully spend less time:
 - Fixing update errors.
 - Arguing with players over update errors.
+- Keying in values into a spreadsheet program or calculator.
 
 All that's needed is to learn:
 - How to install the Python interpreter on your computer (it's simple, don't worry)
