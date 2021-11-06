@@ -49,8 +49,11 @@ Look for the directory where you installed the program and then copy it's path.
 You will be able to run the program properly if you see:
 
 In Windows:
+
 `PS [ABSOLUTE_PATH]>` where ABSOLUTE_PATH is the directory path relative to `C:`
+
 Mac/Linux:
+
 If you see the name of the directory where you installed the program, say if you put the program in a directory called `gsrpgautomator`, if you see gsrpgautomator as the "CWD" in the prompt, then you are all set.
 
 **Note**: What you see may differ based on your settings. Your Mac/Linux prompt may further be different based on your shell config files.
