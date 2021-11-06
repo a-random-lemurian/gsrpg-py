@@ -26,7 +26,17 @@ All that's needed is to learn:
 - Make sure your current working directory is in the same folder as where you install the tool when you make use of it, otherwise it will cause a FileNotFound error since the file opening operations are relative to the tool's directory.
 
 # Get started
-First of all, create a new file named `gsrpg1.json` and then open it with your editor of choice. Fill in the data you need. An example is provided below:
+## Download
+Depending on your theme, you may see a green/orange 'Code' button. Click it and download the .zip file for a potentially unstable release.
+For a more stable release, go to the Releases tab. Then, click "Download source code (zip)" or download the tar.gz (your choice).
+## Installation
+With your `.zip` or `.tar.gz`, move it to a directory of your choice and unzip it in that directory.
+### After installation
+On Windows, open up your command prompt.
+On Mac, if you do not have a terminal emulator, then:
+- Hit `Cmd`+`Space` to enter Spotlight Search
+- Type "Terminal.app"
+- Then, click on it.
 
 ## Code example
 ```json
