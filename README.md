@@ -16,15 +16,22 @@ All that's needed is to learn:
 - JSON syntax
 
 Support for:
-- Characters
+- Characters*
 - Factions
 - Buildings
 - Resources
+- Player Orders*
 > Note: This GSRPG tool is tailored towards the specific needs of the GSRPG subforum on Sufficient Velocity. An effort has been made to ensure this tool's adaptability however.
 
 > **Link**: https://forums.sufficientvelocity.com
 
 # Warnings
+## Extremely important fine print
+```
+* Does not support battles between characters.
+* Some player orders may be impossible to implement
+```
+## User warnings
 - This GSRPG automation tool only supports the Gregorian calendar. Due to the intense difficulty of handling leap years, the supported units of time are 1 month, 1 year, and 1 day (for the latter, the script will not calculate the year.)
 - Use of this tool requires at least a basic understanding of the use of command line interfaces and a data exchange format known as JSON (it's easy to learn JSON, don't worry).
 - This GSRPG automation tool will not host your game for you. Think of it as a Co-Gamemaster.
