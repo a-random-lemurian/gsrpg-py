@@ -20,7 +20,7 @@ Support for:
 - Factions
 - Buildings
 - Resources
-- Player Orders*
+- Player Orders**
 > Note: This GSRPG tool is tailored towards the specific needs of the GSRPG subforum on Sufficient Velocity. An effort has been made to ensure this tool's adaptability however.
 
 > **Link**: https://forums.sufficientvelocity.com
@@ -29,7 +29,7 @@ Support for:
 ## Extremely important fine print
 ```
 * Does not support battles between characters.
-* Some player orders may be impossible to implement
+** Some player orders may be impossible to implement
 ```
 ## User warnings
 - This GSRPG automation tool only supports the Gregorian calendar. Due to the intense difficulty of handling leap years, the supported units of time are 1 month, 1 year, and 1 day (for the latter, the script will not calculate the year.)
