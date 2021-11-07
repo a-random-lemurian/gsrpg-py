@@ -133,7 +133,9 @@ def update(
 
             if produce_resources:
                 for consume in consumption:
-                    faction_res[consume] -= consumption[consume]*mul
+                    consum_res = consumption[consume]*mul
+                    faction_res[consume] -= consum_res
+                    gsrpg_reporter('Resource consumed',f'Consumed {consum_res} {consume}')
 
                 for produce in production:
                     faction_res[produce] += production[produce]*mul
