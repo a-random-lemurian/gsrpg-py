@@ -15,6 +15,7 @@ try:
 except ImportError:
     print("Warning: Questionary and Typer are not installed on your system.")
     print("Do you want to install? Y/N")
+    print("You may choose N if you wish to customize the installation commands.")
     install_perm = input("> ")
     if install_perm.lower().strip() == "n":
         print("Cancelled. This GSRPG tool cannot run without these modules.")
