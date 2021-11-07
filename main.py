@@ -6,7 +6,7 @@ import os
 import sys
 import json
 
-import order_implementation as Ord
+
 
 # This piece of code checks if Typer and
 # Questionary are on the user's system
