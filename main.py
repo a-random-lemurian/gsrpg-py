@@ -113,8 +113,9 @@ def update(
         print(faction_name, " ", "=" * 50)
 
         buildings = factions[faction_name]["buildings"]
+        # Add and deduct resources
         for building in buildings:
-            print(faction_res)
+            #print(faction_res)
 
             production  = buildings_data[building]['production']
             consumption = buildings_data[building]['consumption']
