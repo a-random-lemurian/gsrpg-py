@@ -51,6 +51,28 @@ turn = gsrpg["basic"]["turn"]
 buildings_data = gsrpg["buildings"]
 
 
+def orders_new_building(order_dict: dict, faction_name: str):
+    for building in order_dict['construction']:
+        bldg = building['building']
+        qty = building['qty']
+        consumption = buildings_data[bldg]['build-cost']
+        print(consumption)
+        faction_res = factions[faction_name]["resources"]
+        fac_res_comparison = {a: faction_res[a] for a in consumption}
+        for fac_res in fac_res_comparison:
+            if fac_res_comparison[fac_res] < consumption[fac_res]:
+                construct_building = False
+                break
+            else:
+                construct_building = True
+        print(construct_building)
+        if construct_building:
+            try:
+                factions[faction_name]['buildings'][bldg] += qty
+            except KeyError:
+                factions[faction_name]['buildings'][bldg] = 0 + qty
+
+
 def gsrpg_reporter(event_type: str, msg: str):
     """
     Print out GSRPG update specifics.
