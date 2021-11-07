@@ -204,6 +204,27 @@ __**WARNING**__: As of version `0.1.0`, the script does not support empty `produ
 `power`|40000| Currently unimplemented. The power mechanic may be used as a measure of military strength in future versions.
 `buildings`|`{"power-station": 44}`|All buildings under the control of the faction expressed in the form of a Python dictionary.
 `resources`|`{"Silk": 803}`|All resources under the control of the faction expressed in the form of a Pyhton dictionary.
+## Orders
+> **Note**: Not all of these orders have been implemented.
+There are many types of orders that GSRPG.py can factor into the update.
+### New building orders
+```json
+{
+	"order-type": "newBuilding",
+	"construction": [
+		{"building": "{building}",
+		 "qty":"{qty}"
+		}
+	]
+}
+```
+**Do not specify more than 1** `newBuilding` order as you run the risk of creating too many buildings and accidentally breaking the game's balancing if you do so. Make sure you know EXACTLY what you are doing, as of `0.1.0`. 
+| Attribute | Example | Description
+|---|---|---|
+|`orderType`|`newBuilding`|**DO NOT CHANGE**. May cause key errors if invalid type is specified.
+|`construction`|`{"building": "my-awesome-house", "qty": 69420}`| Buildings to construct in this order.
+|`building`|`"my-awesome-house"`| Building type to construct.
+|`qty`|`69420`| Number of buildings to construct.
 ## Shared
 ### Resources
 ```json
