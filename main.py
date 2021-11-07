@@ -22,7 +22,11 @@ except ImportError:
         print("Cancelled. This GSRPG tool cannot run without these modules.")
         sys.exit()
     else:
-        os.system("python3 -m pip install typer==0.4.0 && python3 -m pip install questionary==1.10.0")
+        os.system("""
+                  python3 -m pip install typer==0.4.0 && 
+                  python3 -m pip install questionary==1.10.0
+                  """
+                    )
 
 
 GSRPG_DATA_FILE_PATH = 'gsrpg1.json'
