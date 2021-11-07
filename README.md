@@ -160,7 +160,8 @@ Legend: `{mandatory attribute}` `<optional attribute>` `[unimplemented]`
 "{name}": {
 			"name":"{name}",
 			"production":{ "See section Resources" },
-			"consumption":{ "See section Resources" }
+			"consumption":{ "See section Resources" },
+			"build-cost":{ "See section Resources" }
 		}
 ```
 __**WARNING**__: As of version `0.1.0`, the script does not support empty `production` and `consumption` attributes. You may insert `"nothing-resource": 0` or anything with a zero value as a placeholder.
@@ -172,6 +173,7 @@ __**WARNING**__: As of version `0.1.0`, the script does not support empty `produ
 |`name`|My Awesome Building|The name of the building.
 |`production`|`"Silk": 43`|A list of resource/s this building will produce.
 |`consumption`|`"Silkworm Eggs": 10`|A list of resource/s this building will use.
+|`build-cost`|`"Concrete":40`|A list of resource/s needed to build 1 instance of this building.
 ## Persons
 ```json
 "{name}": {
