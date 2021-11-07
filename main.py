@@ -138,7 +138,12 @@ def update(
                     gsrpg_reporter('Resource consumed',f'Consumed {consum_res} {consume}')
 
                 for produce in production:
-                    faction_res[produce] += production[produce]*mul
+                    prod_res = production[produce]*mul
+                    try:
+                        faction_res[produce] += prod_res
+                    except KeyError:
+                        faction_res[produce] = 0 + prod_res
+                    gsrpg_reporter('Resource produced',f'Consumed {prod_res} {produce}')
             else:
                 pass
 
