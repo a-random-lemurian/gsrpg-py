@@ -205,7 +205,7 @@ __**WARNING**__: As of version `0.1.0`, the script does not support empty `produ
 `name`| Confederacy of Foo | Faction's name. Preferrably, a common name, for example `Philippines` instead of `Republic of the Philippines`.
 `power`|40000| Currently unimplemented. The power mechanic may be used as a measure of military strength in future versions.
 `buildings`|`{"power-station": 44}`|All buildings under the control of the faction expressed in the form of a Python dictionary.
-`resources`|`{"Silk": 803}`|All resources under the control of the faction expressed in the form of a Pyhton dictionary.
+`resources`|`{"Silk": 803}`|All resources under the control of the faction expressed in the form of a Python dictionary.
 ## Orders
 > **Note**: Not all of these orders have been implemented.
 There are many types of orders that GSRPG.py can factor into the update.
