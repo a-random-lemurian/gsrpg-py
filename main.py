@@ -26,7 +26,7 @@ except ImportError:
 
 
 GSRPG_DATA_FILE_PATH = 'gsrpg1.json'
-import order_implementation as Ord
+
 
 
 
