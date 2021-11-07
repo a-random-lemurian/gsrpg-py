@@ -107,7 +107,10 @@ def update(
 
     faction_names = list(factions.keys())
 
+    #print(factions)
+
     for faction_name in faction_names:
+
         faction_res = factions[faction_name]["resources"]
 
         print(faction_name, " ", "=" * 50)
