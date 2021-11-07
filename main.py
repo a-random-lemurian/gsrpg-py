@@ -52,6 +52,12 @@ buildings_data = gsrpg["buildings"]
 
 
 def orders_new_building(order_dict: dict, faction_name: str):
+    """Executes `newBuilding` orders.
+
+    Args:
+        order_dict (dict): [description]
+        faction_name (str): [description]
+    """
     for building in order_dict['construction']:
         bldg = building['building']
         qty = building['qty']
