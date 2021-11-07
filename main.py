@@ -80,11 +80,8 @@ def update(
     """Update all factions.\n
     WARNING: IT IS A BAD IDEA TO USE -F.
     """
-    gsrpg_header()
-
-    if force:
-        print("Force")
-
+    gsrpg_header() # Print the GSRPG header to list events
+                   # and updates done by the program
 
     faction_names = list(factions.keys())
 
