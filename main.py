@@ -119,7 +119,7 @@ def update(
     faction_names = list(factions.keys())
 
     if debug:
-        print(factions)
+        print('----',factions)
 
     for faction_name in faction_names:
 
