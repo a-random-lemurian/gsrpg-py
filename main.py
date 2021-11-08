@@ -119,7 +119,7 @@ def update(
     faction_names = list(factions.keys())
 
     if debug:
-        print('----',factions)
+        print(factions)
 
     for faction_name in faction_names:
 
@@ -186,7 +186,8 @@ def update(
     gsrpg['basic']['turn'] += 1
 
     if debug:
-        print(factions)
+        print('--FAC',factions)
+        print('-----',orders)
 
     confirmed_update = questionary.confirm(
         "Confirm GSRPG update? Remember, review the logs!"
