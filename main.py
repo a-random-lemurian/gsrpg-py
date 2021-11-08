@@ -165,8 +165,10 @@ def update(
 
         for order in orders:
             order_type = order['order-type'].lower().strip()
+
             if order_type == 'newbuilding':
                 orders_new_building(order, faction_name)
+
             orders.pop(0) # We're done with the order, so
                           # it's time to delete it using pop.
 
