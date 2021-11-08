@@ -108,6 +108,9 @@ def update(
     force: bool = typer.Option(
         False, "-F", "--force", help="Eliminate the confirmation dialog"
     ),
+    debug: bool = typer.Option(
+        False, "-D", "--debug", help="Print out the raw faction data for debugging."
+    )
  ):
     """Update all factions.\n
     WARNING: IT IS A BAD IDEA TO USE -F.
