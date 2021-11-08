@@ -118,7 +118,8 @@ def update(
     gsrpg_header() # Print the GSRPG header to list events
     faction_names = list(factions.keys())
 
-    #print(factions)
+    if debug:
+        print(factions)
 
     for faction_name in faction_names:
 
@@ -129,7 +130,8 @@ def update(
         buildings = factions[faction_name]["buildings"]
         # Add and deduct resources
         for building in buildings:
-            #print(faction_res)
+            if debug:
+                print(faction_res)
 
             production  = buildings_data[building]['production']
             consumption = buildings_data[building]['consumption']
@@ -174,6 +176,9 @@ def update(
 
 
     gsrpg['basic']['turn'] += 1
+
+    if debug:
+        print(factions)
 
     confirmed_update = questionary.confirm(
         "Confirm GSRPG update? Remember, review the logs!"
