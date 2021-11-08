@@ -55,6 +55,66 @@ turn = gsrpg["basic"]["turn"]
 buildings_data = gsrpg["buildings"]
 
 
+def res_should_make_res(fac_res_comparison: dict,
+                    consumption: dict):
+    """Check whether to make resources or not.
+
+    Args:
+        fac_res_comparison (dict): Faction resource dict containing info about the resources needed.
+        consumption (dict): Resources needed to make said resources.
+
+    Returns:
+        Boolean value, containing information about whether to produce resources or not.
+    """
+    for fac_res, value in fac_res_comparison.items():
+        if value < consumption[fac_res]:
+            produce_resources = False
+            break
+        else:
+            produce_resources = True
+        return produce_resources
+
+
+def res_consume_resources(
+    consumption: dict,
+    faction_res: dict,
+    mul: int):
+    for consume in consumption:
+        consum_res = consumption[consume]*mul
+        faction_res[consume] -= consum_res
+        gsrpg_reporter('Resource consumed',f'Consumed {consum_res} {consume}')
+
+
+def order_execution(debug, faction_name, orders, order):
+    order_type = order['order-type'].lower().strip()
+    if debug:
+        print('----- ORDER: ',order)
+
+    try:
+        persistence = order['persistent']
+    except KeyError:
+        persistent = False
+
+    if order_type == 'newbuilding':
+        orders_new_building(order, faction_name)
+
+    if not persistent or persistence == 0:
+        orders.pop(0) # We're done with the order, so
+                              # it's time to delete it using pop.
+    else:
+        persistence -= 1
+
+
+def res_produce_res(faction_res, mul, production):
+    for produce in production:
+        prod_res = production[produce]*mul
+        try:
+            faction_res[produce] += prod_res
+        except KeyError:
+            faction_res[produce] = 0 + prod_res
+        gsrpg_reporter('Resource produced',f'Consumed {prod_res} {produce}')
+
+
 def orders_new_building(order_dict: dict, faction_name: str):
     """Executes `newBuilding` orders.
 
@@ -119,67 +179,35 @@ def update(
     faction_names = list(factions.keys())
 
     if debug:
-        print(factions)
+        print('----',factions)
 
     for faction_name in faction_names:
-
         faction_res = factions[faction_name]["resources"]
-
         print(faction_name, " ", "=" * 50)
-
         buildings = factions[faction_name]["buildings"]
         # Add and deduct resources
         for building in buildings:
             if debug:
                 print(faction_res)
 
+            mul = buildings[building]
             production  = buildings_data[building]['production']
             consumption = buildings_data[building]['consumption']
-
-            mul = buildings[building]
-
             fac_res_comparison = {a: faction_res[a] for a in consumption}
 
-            for fac_res, value in fac_res_comparison.items():
-                if value < consumption[fac_res]:
-                    produce_resources = False
-                    break
-                else:
-                    produce_resources = True
+            produce_resources = res_should_make_res(
+                fac_res_comparison=fac_res_comparison,
+                consumption=consumption)
+
+            res_consume_resources(consumption,faction_res,mul)
 
             if produce_resources:
-                for consume in consumption:
-                    consum_res = consumption[consume]*mul
-                    faction_res[consume] -= consum_res
-                    gsrpg_reporter('Resource consumed',f'Consumed {consum_res} {consume}')
-
-                for produce in production:
-                    prod_res = production[produce]*mul
-                    try:
-                        faction_res[produce] += prod_res
-                    except KeyError:
-                        faction_res[produce] = 0 + prod_res
-                    gsrpg_reporter('Resource produced',f'Consumed {prod_res} {produce}')
+                res_produce_res(faction_res, mul, production)
         # Execute orders
         orders = factions[faction_name]["orders"]
 
         for order in orders:
-            order_type = order['order-type'].lower().strip()
-
-            try:
-                persistence = order['persistent']
-            except KeyError:
-                persistent = False
-
-            if order_type == 'newbuilding':
-                orders_new_building(order, faction_name)
-
-
-            if not persistent or persistence == 0:
-                orders.pop(0) # We're done with the order, so
-                              # it's time to delete it using pop.
-            else:
-                persistence -= 1
+            order_execution(debug, faction_name, orders, order)
 
 
 
@@ -200,6 +228,7 @@ def update(
     elif confirmed_update is False:
         print("Cancelled GSRPG update!")
         sys.exit()
+
 
 
 @faction_data_access.command("names")
