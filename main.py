@@ -69,8 +69,8 @@ def orders_new_building(order_dict: dict, faction_name: str):
         print(consumption)
         faction_res = factions[faction_name]["resources"]
         fac_res_comparison = {a: faction_res[a] for a in consumption}
-        for fac_res in fac_res_comparison:
-            if fac_res_comparison[fac_res] < consumption[fac_res]:
+        for fac_res, value in fac_res_comparison.items():
+            if value < consumption[fac_res]:
                 construct_building = False
                 break
             else:
@@ -113,8 +113,6 @@ def update(
     WARNING: IT IS A BAD IDEA TO USE -F.
     """
     gsrpg_header() # Print the GSRPG header to list events
-                   # and updates done by the program
-
     faction_names = list(factions.keys())
 
     #print(factions)
@@ -137,8 +135,8 @@ def update(
 
             fac_res_comparison = {a: faction_res[a] for a in consumption}
 
-            for fac_res in fac_res_comparison:
-                if fac_res_comparison[fac_res] < consumption[fac_res]:
+            for fac_res, value in fac_res_comparison.items():
+                if value < consumption[fac_res]:
                     produce_resources = False
                     break
                 else:
@@ -157,9 +155,6 @@ def update(
                     except KeyError:
                         faction_res[produce] = 0 + prod_res
                     gsrpg_reporter('Resource produced',f'Consumed {prod_res} {produce}')
-            else:
-                pass
-
         # Execute orders
         orders = factions[faction_name]["orders"]
 
@@ -180,10 +175,10 @@ def update(
     confirmed_update = questionary.confirm(
         "Confirm GSRPG update? Remember, review the logs!"
     ).ask()
-    if confirmed_update is True or force is True:
+    if confirmed_update is True or force:
         with open(GSRPG_DATA_FILE_PATH,'w') as gsrpg_fp:
             json.dump(gsrpg,gsrpg_fp,indent=2)
-        if force is True:
+        if force:
             print('Usage of the -F flag is highly discouraged.')
     elif confirmed_update is False:
         print("Cancelled GSRPG update!")
