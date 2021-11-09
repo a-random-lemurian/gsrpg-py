@@ -5,7 +5,7 @@ This is a Python program to assist in running a Sufficient Velocity-flavored GSR
 import os
 import sys
 import json
-
+from rich import print
 
 
 # This piece of code checks if Typer and
@@ -51,12 +51,18 @@ with open(GSRPG_DATA_FILE_PATH, "r+", encoding="UTF-8") as gsrpg_file:
 
 
 factions = gsrpg["factions"]
-turn = gsrpg["basic"]["turn"]
 buildings_data = gsrpg["buildings"]
+turn = gsrpg["basic"]["turn"]
 
+def check_persistence(order):
+    try:
+        pers = order['persistence'] != 0
+        return True
+    except KeyError:
+        return False
 
 def res_should_make_res(fac_res_comparison: dict,
-                    consumption: dict):
+                        consumption: dict):
     """Check whether to make resources or not.
 
     Args:
@@ -87,22 +93,13 @@ def res_consume_resources(
 
 def order_execution(debug, faction_name, orders, order):
     order_type = order['order-type'].lower().strip()
-    if debug:
-        print('----- ORDER: ',order)
-
-    try:
-        persistence = order['persistent']
-    except KeyError:
-        persistent = False
-
     if order_type == 'newbuilding':
         orders_new_building(order, faction_name)
-
-    if not persistent or persistence == 0:
-        orders.pop(0) # We're done with the order, so
-                      # it's time to delete it using pop.
+    persistence = check_persistence(order=order)
+    if persistence:
+        orders[0]['persistence'] -= 1
     else:
-        persistence -= 1
+        orders.pop(0)
 
 
 def res_produce_res(faction_res, mul, production):
@@ -126,7 +123,7 @@ def orders_new_building(order_dict: dict, faction_name: str):
         bldg = building['building']
         qty = building['qty']
         consumption = buildings_data[bldg]['build-cost']
-        print(consumption)
+
         faction_res = factions[faction_name]["resources"]
         fac_res_comparison = {a: faction_res[a] for a in consumption}
         for fac_res, value in fac_res_comparison.items():
@@ -135,7 +132,7 @@ def orders_new_building(order_dict: dict, faction_name: str):
                 break
             else:
                 construct_building = True
-        print(construct_building)
+
         if construct_building:
             try:
                 factions[faction_name]['buildings'][bldg] += qty
@@ -167,67 +164,71 @@ def checkturn():
 def update(
     force: bool = typer.Option(
         False, "-F", "--force", help="Eliminate the confirmation dialog"
-    ),
+     ),
     debug: bool = typer.Option(
         False, "-D", "--debug", help="Print out the raw faction data for debugging."
-    )
+     )
  ):
     """Update all factions.\n
     WARNING: IT IS A BAD IDEA TO USE -F.
     """
-    gsrpg_header() # Print the GSRPG header to list events
-    faction_names = list(factions.keys())
-
-    if debug:
-        print('----',factions)
-
-    for faction_name in faction_names:
-        faction_res = factions[faction_name]["resources"]
-        print(faction_name, " ", "=" * 50)
-        buildings = factions[faction_name]["buildings"]
-        # Add and deduct resources
-        for building in buildings:
-            if debug:
-                print(faction_res)
-
-            mul = buildings[building]
-            production  = buildings_data[building]['production']
-            consumption = buildings_data[building]['consumption']
-            fac_res_comparison = {a: faction_res[a] for a in consumption}
-
-            produce_resources = res_should_make_res(
-                fac_res_comparison=fac_res_comparison,
-                consumption=consumption)
-
-            res_consume_resources(consumption,faction_res,mul)
-
-            if produce_resources:
-                res_produce_res(faction_res, mul, production)
-        # Execute orders
-        orders = factions[faction_name]["orders"]
-
-        for order in orders:
-            order_execution(debug, faction_name, orders, order)
-
-
 
     gsrpg['basic']['turn'] += 1
+    print(gsrpg['basic']['turn'])
 
-    if debug:
-        print('--FAC',factions)
-        print('-----',orders)
+    temp_dict = {}
+    
+    
 
-    confirmed_update = questionary.confirm(
-        "Confirm GSRPG update? Remember, review the logs!"
-    ).ask()
-    if confirmed_update is True or force:
-        with open(GSRPG_DATA_FILE_PATH,'w') as gsrpg_fp:
-            json.dump(gsrpg,gsrpg_fp,indent=2)
-        if force:
-            print('Usage of the -F flag is highly discouraged.')
-    elif confirmed_update is False:
-        print("Cancelled GSRPG update!")
-        sys.exit()
+    for faction in gsrpg['factions']:
+
+        buildings = gsrpg['factions'][faction]['buildings']
+
+        for building in buildings:
+            mul = buildings[building]
+
+            consumption = buildings_data[building]['consumption']
+            production  = buildings_data[building]['production']
+            
+            resources = gsrpg['factions'][faction]['resources']
+            #print(resources,flush=True)
+
+            fac_res_comp = {consume: resources[consume] for consume in consumption}
+
+            if debug:
+                print('DEBUG: facres ',fac_res_comp)
+                print('DEBUG: con ',consumption)
+
+            bool_comps = [
+                resources[consume] > consumption[consume]
+                for consume in consumption
+            ]
+
+            if False not in bool_comps:
+                res_consume_resources(
+                    consumption = consumption,
+                    faction_res = resources,
+                    mul         = mul
+                    )
+                res_produce_res(
+                    faction_res = resources,
+                    mul = mul,
+                    production = production
+                )
+        
+
+        
+        orders = gsrpg['factions'][faction]['orders']
+        
+        for order in orders:
+            order_execution(
+                debug = debug,
+                faction_name = faction,
+                orders = orders,
+                order = order,
+            )
+
+
 
 
 
