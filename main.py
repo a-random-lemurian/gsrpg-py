@@ -100,7 +100,7 @@ def order_execution(debug, faction_name, orders, order):
 
     if not persistent or persistence == 0:
         orders.pop(0) # We're done with the order, so
-                              # it's time to delete it using pop.
+                      # it's time to delete it using pop.
     else:
         persistence -= 1
 
