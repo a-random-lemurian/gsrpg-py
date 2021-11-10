@@ -34,8 +34,8 @@ GSRPG_DATA_FILE_PATH = 'gsrpg1.json'
 
 
 
-app = typer.Typer(add_completion=True)
-faction_data_access = typer.Typer(add_completion=True)
+app = typer.Typer(add_completion=True,no_args_is_help=True)
+faction_data_access = typer.Typer(add_completion=True,no_args_is_help=True)
 
 app.add_typer(faction_data_access,name='list')
 
