@@ -91,13 +91,18 @@ def res_consume_resources(
         gsrpg_reporter('Resource consumed',f'Consumed {consum_res} {consume}')
 
 
-def order_execution(debug, faction_name, orders, order):
-    order_type = order['order-type'].lower().strip()
-    if order_type == 'newbuilding':
-        orders_new_building(order, faction_name)
-    persistence = check_persistence(order=order)
-    if persistence:
-        orders[0]['persistence'] -= 1
+def order_execution(debug, faction_name, orders: list, order: dict):
+    print('PRE-PROCESSED >',order,flush=True)
+    idx = orders.index(order)
+    type = str(order.get('order-type')).lower().strip()
+    if type == 'newbuilding':
+        orders_new_building(
+            order_dict=order,
+            faction_name=faction_name
+                           )
+    pers = order.get('persistent')
+    if pers == 0 or pers is None:
+        orders.pop(idx)
     else:
         orders.pop(0)
 
