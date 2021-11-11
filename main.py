@@ -31,7 +31,9 @@ except ImportError:
 
 GSRPG_DATA_FILE_PATH = 'gsrpg1.json'
 
-
+VALID_ORDER_TYPES = [
+    'newbuilding'
+]
 
 
 app = typer.Typer(add_completion=True,no_args_is_help=True)
@@ -69,6 +71,7 @@ def check_persistence(order):
     except KeyError:
         return False
 
+
 def res_should_make_res(fac_res_comparison: dict,
                         consumption: dict):
     """Check whether to make resources or not.
@@ -99,20 +102,33 @@ def res_consume_resources(
         gsrpg_reporter('Resource consumed',f'Consumed {consum_res} {consume}')
 
 
-def order_execution(debug, faction_name, orders: list, order: dict):
-    print('PRE-PROCESSED >',order,flush=True)
-    idx = orders.index(order)
-    type = str(order.get('order-type')).lower().strip()
-    if type == 'newbuilding':
-        orders_new_building(
-            order_dict=order,
-            faction_name=faction_name
-                           )
-    pers = order.get('persistent')
-    if pers == 0 or pers is None:
-        orders.pop(idx)
-    else:
-        orders.pop(0)
+def order_execution(orders: list, faction_name: str):
+    persistent_orders = []
+    for order in orders:
+
+        # Check persistence
+        pers = order.get('persistent')
+        if pers is not None:
+            order['persistent'] -= 1
+            if order['persistent'] != 0:
+                persistent_orders.append(order)
+
+        order_type = order.get('order-type')
+
+        # Validators
+        if order_type is None:
+            raise TypeError('Specify a valid order type!')
+        if order_type.strip().lower() not in VALID_ORDER_TYPES:
+            raise ValueError('Check your spelling! Invalid order type.')
+
+        # Turn the order type into lowercase and
+        # strip whitespaces
+        order_type = order_type.strip().lower()
+
+        # If statements time! Now we find the correct
+        # order type.
+        if order_type == 'newbuilding':
+            orders_new_building(order, faction_name)
 
 
 def res_produce_res(faction_res, mul, production):
@@ -153,13 +169,6 @@ def orders_new_building(order_dict: dict, faction_name: str):
                 factions[faction_name]['buildings'][bldg] = 0 + qty
 
 
-def gsrpg_reporter(event_type: str, msg: str):
-    """
-    Print out GSRPG update specifics.
-    """
-    print(f"{event_type:<40} | {msg}")
-
-
 def gsrpg_header():
     """Print out a GSRPG header for the table."""
     print(f'{"Event":<40} {"Res":<5}')
@@ -180,6 +189,9 @@ def update(
      ),
     debug: bool = typer.Option(
         False, "-D", "--debug", help="Print out the raw faction data for debugging."
+     ),
+    save_sep: bool = typer.Option(
+        False, "-s", "--sep-file", help="Save the updated data to another file."
      )
  ):
     """Update all factions.\n
@@ -189,9 +201,7 @@ def update(
     gsrpg['basic']['turn'] += 1
     print(gsrpg['basic']['turn'])
 
-    temp_dict = {}
-    
-    
+
 
     for faction in gsrpg['factions']:
 
@@ -232,15 +242,29 @@ def update(
 
         
         orders = gsrpg['factions'][faction]['orders']
-        
-        for order in orders:
-            order_execution(
-                debug = debug,
-                faction_name = faction,
-                orders = orders,
-                order = order,
-            )
 
+        order_execution(orders, faction)
+
+        if save_sep:
+            with open(f'{GSRPG_DATA_FILE_PATH} turn {gsrpg["basic"]["turn"]}','x',encoding='UTF-8') as gsrpgfile:
+                json.dump(gsrpg,gsrpgfile)
+                print('GSRPG.py> Made a backup.')
+
+    print('[b][green]SUCCESSFUL![/green][/b]')
+    print('GSRPG.py has finished performing automated order execution and resouerce updates.')
+    player_confirmation = questionary.confirm("GSRPG.py wants confirmation from you before saving.").ask()
+
+    if player_confirmation:
+        with open(GSRPG_DATA_FILE_PATH,'w',encoding='UTF-8') as gsrpgfile:
+            json.dump(gsrpg,gsrpgfile,indent=2)
+            print('GSRPG.py has written the updates to disk.')
+            print('Remember that it is YOUR responsibility to:')
+            print('- Write the lore.')
+            print('- Double-check the updates (sometimes it has a glitch)')
+
+            print('----------------------')
+            print('This software is open source.')
+            print('https://github.com/a-random-lemurian/gsrpg-py')
 
 
 
