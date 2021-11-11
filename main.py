@@ -251,7 +251,7 @@ def update(
                 print('GSRPG.py> Made a backup.')
 
     print('[b][green]SUCCESSFUL![/green][/b]')
-    print('GSRPG.py has finished performing automated order execution and resouerce updates.')
+    print('GSRPG.py has finished performing automated order execution and resource updates.')
     player_confirmation = questionary.confirm("GSRPG.py wants confirmation from you before saving.").ask()
 
     if player_confirmation:
