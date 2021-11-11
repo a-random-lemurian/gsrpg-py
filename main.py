@@ -54,6 +54,14 @@ factions = gsrpg["factions"]
 buildings_data = gsrpg["buildings"]
 turn = gsrpg["basic"]["turn"]
 
+def gsrpg_reporter(event_type: str, msg: str):
+    """
+    Print out GSRPG update specifics.
+    """
+    print(f"{event_type:<40} | {msg}")
+
+
+
 def check_persistence(order):
     try:
         pers = order['persistence'] != 0
