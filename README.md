@@ -186,8 +186,8 @@ __**WARNING**__: As of version `0.1.0`, the script does not support empty `produ
 ```
 | Attribute | Example | Description
 |---|---|---|
-|`name`|`"John Doe"`|The full name of the character. Factions require at least 1 leader.
-|`age`|69|The age of the character in real-life Earth years. Do not include prefixes such as 'His Excellency' or 'Her Excellency'.
+|`name`|`"John Doe"`|The full name of the character. Factions require at least 1 leader. Do not include prefixes such as 'His Excellency' or 'Her Excellency'.
+|`age`|69|The age of the character in real-life Earth years.
 |`gender`|Male|The character's gender at the present turn. If neither male or female, specify `Non-Binary`. Supported types (case sensitive) are `Female`, `Male`, and `Non-Binary`.
 |`position`|Intern|Highest rank of authority this person holds, like President, Prime Minister, Fleet Admiral, Knight, and similar titles.
 |`species`|Homo sapiens sapiens|Species of the character. Scientific names are preferred.
