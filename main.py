@@ -173,6 +173,7 @@ def resource_transfer(order_dict: dict, faction_name: str):
         if res_to_give[res] > giving_faction_res[res]:
             gsrpg_reporter('Not enough resources',f'{faction_name} attempted to donate {res_to_give[res]} {res} when it only had {giving_faction_res[res]}.')
         else:
+            giving_faction_res[res] -= res_to_give[res]
             recieving_faction_res[res] += res_to_give[res]
             gsrpg_reporter('Resource transfer successful',f'{recieving_faction} got {res_to_give[res]} {res} from {faction_name}.')
 def gsrpg_header():
