@@ -211,7 +211,7 @@ def update(
     print(gsrpg['basic']['turn'])
 
 
-
+    # Go over all the factions in the list.
     for faction in gsrpg['factions']:
 
         buildings = gsrpg['factions'][faction]['buildings']
