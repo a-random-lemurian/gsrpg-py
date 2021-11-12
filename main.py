@@ -1,3 +1,8 @@
+# Copyright (C) Lemuria 2021.
+# GSRPG.py is free software! You may redistribute and
+# modify this program, as long as you follow the terms
+# of the GNU General Public License v3.
+# GNU GPL v3 text is stored in: LICENSE.txt
 """
 This is a Python program to assist in running a Sufficient Velocity-flavored GSRPG.
 """
