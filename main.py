@@ -207,6 +207,7 @@ def update(
     WARNING: IT IS A BAD IDEA TO USE -F.
     """
 
+    # Increment the turn number by one.
     gsrpg['basic']['turn'] += 1
     print(gsrpg['basic']['turn'])
 
