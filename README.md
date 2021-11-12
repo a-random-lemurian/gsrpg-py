@@ -227,6 +227,18 @@ There are many types of orders that GSRPG.py can factor into the update.
 |`construction`|`{"building": "my-awesome-house", "qty": 69420}`| Buildings to construct in this order.
 |`building`|`"my-awesome-house"`| Building type to construct.
 |`qty`|`69420`| Number of buildings to construct.
+### Resource transfer orders
+```json
+{
+	"order-type": "resourceTransfer",
+	"reciever": "{reciever}",
+	"resources": { /* View resource syntax */ }
+}
+```
+**IMPORTANT**: If a faction is giving a resource to a faction whose resource data does not define that resource, then define it with a value of 0, otherwise the program will raise a KeyError when attempting to modify the recieving faction's data to reflect resource donations.
+| Attribute | Example | Description
+|`reciever`|`Republic of Foo`|Faction that will recieve the resources.
+|`resources`|`{"Bar": 388, "Baz": 209}`|Resources to give.
 ## Shared
 ### Resources
 ```json
