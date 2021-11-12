@@ -27,6 +27,8 @@ except ImportError:
         print("Cancelled. This GSRPG tool cannot run without these modules.")
         sys.exit()
     else:
+        # These commands likely work only on macOS and
+        # Linux distros
         os.system("""
                   python3 -m pip install typer==0.4.0 && 
                   python3 -m pip install questionary==1.10.0
