@@ -29,7 +29,12 @@ except ImportError:
                     )
 
 
+# HOW TO USE THIS
+# If your GSRPG data is stored in a file that isn't gsrpg1.json,
+# then change:
 GSRPG_DATA_FILE_PATH = 'gsrpg1.json'
+#                       ^~~~~~~~~~~ YOUR FILE HERE
+
 
 VALID_ORDER_TYPES = [
     'newbuilding'
@@ -45,11 +50,6 @@ app.add_typer(faction_data_access,name='list')
 with open(GSRPG_DATA_FILE_PATH, "r+", encoding="UTF-8") as gsrpg_file:
     gsrpg = json.load(gsrpg_file)
 
-# HOW TO USE THIS
-# If your GSRPG data is stored in a file that isn't gsrpg1.json,
-# then change:
-# with open('gsrpg1.json','r+',encoding='UTF-8') as gsrpg_file:
-#            ^^^^^^^^^^^ your file here
 
 
 factions = gsrpg["factions"]
