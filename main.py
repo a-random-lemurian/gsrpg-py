@@ -169,14 +169,12 @@ def resource_transfer(order_dict: dict, faction_name: str):
     giving_faction_res = gsrpg['factions'][faction_name]['resources']
     recieving_faction_res = gsrpg['factions'][recieving_faction]['resources']
     # Check if the giving faction has enough resources
-    for res_type in res_to_give:
-        key = list(res_type.keys())
-        val = list(res_type.values())
-        if val[0] > giving_faction_res[key[0]]:
-            gsrpg_reporter('Not enough resources',f'{faction_name} did not have enough resources.')
+    for res in res_to_give:
+        if res_to_give[res] > giving_faction_res[res]:
+            gsrpg_reporter('Not enough resources',f'{faction_name} attempted to donate {res_to_give[res]} {res} when it only had {giving_faction_res[res]}.')
         else:
-            recieving_faction_res[key[0]] += val[0]
-            gsrpg_reporter('Resource transfer successful',f'{recieving_faction} got {val[0]} {key[0]} from {faction_name}.')
+            recieving_faction_res[res] += res_to_give[res]
+            gsrpg_reporter('Resource transfer successful',f'{recieving_faction} got {res_to_give[res]} {res} from {faction_name}.')
 def gsrpg_header():
     """Print out a GSRPG header for the table."""
     print(f'{"Event":<40} {"Res":<5}')
