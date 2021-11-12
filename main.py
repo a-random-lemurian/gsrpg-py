@@ -42,7 +42,8 @@ GSRPG_DATA_FILE_PATH = 'gsrpg1.json'
 
 
 VALID_ORDER_TYPES = [
-    'newbuilding'
+    'newbuilding',
+    'resourcetransfer'
 ]
 
 
@@ -66,17 +67,12 @@ def gsrpg_reporter(event_type: str, msg: str):
     Print out GSRPG update specifics.
     """
     print(f"{event_type:<40} | {msg}")
-
-
-
 def check_persistence(order):
     try:
         pers = order['persistence'] != 0
         return True
     except KeyError:
         return False
-
-
 def res_should_make_res(fac_res_comparison: dict,
                         consumption: dict):
     """Check whether to make resources or not.
@@ -95,8 +91,6 @@ def res_should_make_res(fac_res_comparison: dict,
         else:
             produce_resources = True
         return produce_resources
-
-
 def res_consume_resources(
     consumption: dict,
     faction_res: dict,
@@ -105,8 +99,6 @@ def res_consume_resources(
         consum_res = consumption[consume]*mul
         faction_res[consume] -= consum_res
         gsrpg_reporter('Resource consumed',f'Consumed {consum_res} {consume}')
-
-
 def order_execution(orders: list, faction_name: str):
     persistent_orders = []
     for order in orders:
@@ -134,7 +126,8 @@ def order_execution(orders: list, faction_name: str):
         # order type.
         if order_type == 'newbuilding':
             orders_new_building(order, faction_name)
-
+        if order_type == 'resourcetransfer':
+            resource_transfer(order, faction_name)
 
 def res_produce_res(faction_res, mul, production):
     for produce in production:
@@ -144,8 +137,6 @@ def res_produce_res(faction_res, mul, production):
         except KeyError:
             faction_res[produce] = 0 + prod_res
         gsrpg_reporter('Resource produced',f'Consumed {prod_res} {produce}')
-
-
 def orders_new_building(order_dict: dict, faction_name: str):
     """Executes `newBuilding` orders.
 
@@ -172,8 +163,20 @@ def orders_new_building(order_dict: dict, faction_name: str):
                 factions[faction_name]['buildings'][bldg] += qty
             except KeyError:
                 factions[faction_name]['buildings'][bldg] = 0 + qty
-
-
+def resource_transfer(order_dict: dict, faction_name: str):
+    res_to_give = order_dict['resources']
+    recieving_faction = order_dict['reciever']
+    giving_faction_res = gsrpg['factions'][faction_name]['resources']
+    recieving_faction_res = gsrpg['factions'][recieving_faction]['resources']
+    # Check if the giving faction has enough resources
+    for res_type in res_to_give:
+        key = list(res_type.keys())
+        val = list(res_type.values())
+        if val[0] > giving_faction_res[key[0]]:
+            gsrpg_reporter('Not enough resources',f'{faction_name} did not have enough resources.')
+        else:
+            recieving_faction_res[key[0]] += val[0]
+            gsrpg_reporter('Resource transfer successful',f'{recieving_faction} got {val[0]} {key[0]} from {faction_name}.')
 def gsrpg_header():
     """Print out a GSRPG header for the table."""
     print(f'{"Event":<40} {"Res":<5}')
